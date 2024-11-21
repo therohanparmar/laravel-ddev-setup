@@ -1,4 +1,3 @@
-
 # Setting Up Laravel with DDEV : A Step-by-Step Guide
 
 ### Prerequisites:
@@ -124,7 +123,39 @@ ddev exec php artisan key:generate
 Known Errors
 ----
 
-Sometime you can faced the port 80 conflict error. At that time you have to run below commands to fix this eroor.
+### Error: Failed waiting for web/db containers to become ready
+
+Failed waiting for web/db containers to become ready: web container failed: log=, err=health check timed out after 2m0s: labels map[com.ddev.site-name:laravel-ddev com.docker.compose.service:web] timed out without becoming healthy, status=, detail= ddev-laravel-ddev-web:starting
+Troubleshoot this with these commands:
+```
+[
+	ddev logs -s web
+	docker logs ddev-laravel-ddev-web
+	docker inspect --format "{{ json .State.Health }}" ddev-laravel-ddev-web | docker run -i --rm ddev/ddev-utilities jq -r
+]
+```
+
+### Solution: 
+* The `web` container's health check might not be set correctly. To test, temporarily disable the health check by adding this to your `docker-compose.override.yml`:
+* Crete a file called `docker-compose.override.yml` in the `.ddev` of your project and add the following:
+
+```
+version: '3.6'
+services:
+  web:
+    healthcheck:
+      disable: true
+```
+
+And then restart your DDEV environment:
+
+```
+ddev restart
+```
+
+---
+
+### Error: Sometime you can faced the port 80 conflict error. At that time you have to run below commands to fix this eroor.
 
 ```
 ddev stop 
