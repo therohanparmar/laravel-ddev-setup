@@ -24,11 +24,15 @@ Step 2: Setting up DDEV for Laravel
 ---
 Navigate to your project directory:
 
-```cd laravel-ddev```
+```
+cd laravel-ddev
+```
 
 Now, configure a new DDEV project:
 
-```ddev config```
+```
+ddev config
+```
 
 This will prompt you with a series of questions. For most of them, the default values will suffice. When asked for the project type, choose php.
 
